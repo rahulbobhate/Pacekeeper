@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Pacekeeper</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="pacekeeper_welcome_msg">Welcome to Pacekeeper</string>
     <string name="action_settings">Settings</string>
 
     <string name="player_activity">Player</string>
