@@ -33,6 +33,10 @@
             android:name=".PaceActivity"
             android:label="@string/title_activity_pace" >
         </activity>
+	 <activity
+            android:name=".DemoActivity"
+            android:label="@string/title_activity_demo" >
+        </activity>
     </application>
 
 </manifest>

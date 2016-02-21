@@ -6,6 +6,7 @@
 
     <string name="player_activity">Player</string>
     <string name="title_activity_pace">PaceActivity</string>
+    <string name="title_activity_demo">DemoActivity</string>
 
     <string name="hello_world">Hello world!</string>
 

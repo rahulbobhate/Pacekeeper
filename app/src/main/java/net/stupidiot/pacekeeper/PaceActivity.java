@@ -27,6 +27,7 @@ public class PaceActivity extends AppCompatActivity implements LocationListener 
     double minPace;
     double maxPace;
     MediaPlayer beepSongPlayer;
+    boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,9 +102,15 @@ public class PaceActivity extends AppCompatActivity implements LocationListener 
             float speed = location.getSpeed();
             paceTxt.setText("Speed "+location.getSpeed());
             if (speed >= minPace && speed <= maxPace) {
-                beepSongPlayer.stop();
+                if(flag) {
+                    beepSongPlayer.pause();
+                    flag = false;
+                }
             } else {
-                beepSongPlayer.start();
+                if(!flag) {
+                    beepSongPlayer.start();
+                    flag = true;
+                }
             }
         }else{
             minPaceTxt.setText("Minpace "+minPace);
