@@ -3,6 +3,8 @@
     package="net.stupidiot.pacekeeper" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -20,12 +22,17 @@
         </activity>
 
         <service
-            android:name="PacekeeperService"
+            android:name=".PacekeeperService"
             android:exported="false" >
             <intent-filter>
-                <action android:name="net.stupidiot.PacekeeperService"/>
+                <action android:name="net.stupidiot.PacekeeperService" />
             </intent-filter>
         </service>
+
+        <activity
+            android:name=".PaceActivity"
+            android:label="@string/title_activity_pace" >
+        </activity>
     </application>
 
 </manifest>

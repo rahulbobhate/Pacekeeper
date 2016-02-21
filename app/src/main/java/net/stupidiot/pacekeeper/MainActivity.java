@@ -51,26 +51,21 @@ public class MainActivity extends AppCompatActivity
 
         startMonitorButton = (Button) findViewById(R.id.monitor_start_button);
 
-        startMonitorButton.setOnClickListener(new View.OnClickListener()
-        {
+        startMonitorButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 double minPace = Double.parseDouble(minPaceText.getText().toString());
                 double maxPace = Double.parseDouble(maxPaceText.getText().toString());
 
-                if (minPace >= maxPace)
-                {
+                if (minPace >= maxPace) {
                     Toast.makeText(getApplicationContext(), "Min pace is less than max pace. Please select correct values", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
-                    Intent startServiceIntent = new Intent(activity, PacekeeperService.class);
-                    startServiceIntent.setAction("net.stupidiot.PacekeeperService");
+                } else {
+                    Intent startServiceIntent = new Intent(activity, PaceActivity.class);
+                    //startServiceIntent.setAction("net.stupidiot.PacekeeperService");
                     startServiceIntent.putExtra("minPace", minPace);
                     startServiceIntent.putExtra("maxPace", maxPace);
-
-                    startService(startServiceIntent);
+                    startActivity(startServiceIntent);
+                    //startService(startServiceIntent);
                 }
             }
         });
@@ -99,4 +94,7 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }

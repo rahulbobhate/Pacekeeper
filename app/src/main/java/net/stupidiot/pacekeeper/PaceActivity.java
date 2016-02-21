@@ -1,48 +1,51 @@
 package net.stupidiot.pacekeeper;
 
 import android.Manifest;
-import android.app.IntentService;
-import android.app.Service;
-import android.content.Intent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 import java.io.File;
 
-/**
- * An {@link IntentService} subclass for handling asynchronous task requests in
- * a service on a separate handler thread.
- * <p>
- * TODO: Customize class - update intent actions, extra parameters and static
- * helper methods.
- */
-public class PacekeeperService extends Service implements LocationListener
-{
-    private static final String TAG = PacekeeperService.class.toString();
+public class PaceActivity extends AppCompatActivity implements LocationListener {
 
-    public PacekeeperService()
-    {
-
-    }
-
-    int minPace;
-    int maxPace;
+    TextView minPaceTxt;
+    TextView maxPaceTxt;
+    TextView paceTxt;
+    double minPace;
+    double maxPace;
     MediaPlayer beepSongPlayer;
+
     @Override
-    public void onCreate()
-    {
-        Log.d(TAG, "Service created");
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pace);
+
+        minPaceTxt = (TextView)findViewById(R.id.minP);
+        maxPaceTxt = (TextView)findViewById(R.id.maxP);
+        paceTxt = (TextView)findViewById(R.id.pace);
+
+        Intent intent = getIntent();
+        Bundle b = intent.getExtras();
+        minPace = b.getDouble("minPace");
+        maxPace = b.getDouble("maxPace");
+
+        File beepSong = findSong(Environment.getExternalStorageDirectory());
+        Uri songUri = Uri.parse(beepSong.toString());
+        beepSongPlayer = MediaPlayer.create(getApplicationContext(), songUri);
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)   != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
@@ -57,6 +60,9 @@ public class PacekeeperService extends Service implements LocationListener
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
         this.onLocationChanged(null);
+
+
+
     }
 
     private File findSong(File root) {
@@ -68,45 +74,41 @@ public class PacekeeperService extends Service implements LocationListener
     }
 
     @Override
-    public void onDestroy()
-    {
-        Log.d(TAG, "Service destroyed");
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_pace, menu);
+        return true;
     }
 
-    @Nullable
     @Override
-    public IBinder onBind(Intent intent)
-    {
-        return null;
-    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId)
-    {
-        Log.d(TAG, "Service started");
-        if(intent != null) {
-            Bundle b = intent.getExtras();
-            minPace = b.getInt("minPace");
-            maxPace = b.getInt("maxPace");
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
-        File beepSong = findSong(Environment.getExternalStorageDirectory());
-        Uri songUri = Uri.parse(beepSong.toString());
-        beepSongPlayer = MediaPlayer.create(getApplicationContext(), songUri);
 
-        return super.onStartCommand(intent, flags, startId);
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onLocationChanged(Location location) {
         if(location != null) {
             float speed = location.getSpeed();
-
+            paceTxt.setText("Speed "+location.getSpeed());
             if (speed >= minPace && speed <= maxPace) {
                 beepSongPlayer.stop();
             } else {
                 beepSongPlayer.start();
             }
+        }else{
+            minPaceTxt.setText("Minpace "+minPace);
+            maxPaceTxt.setText("Maxpace "+maxPace);
+            paceTxt.setText("Speed -.-");
         }
     }
 
