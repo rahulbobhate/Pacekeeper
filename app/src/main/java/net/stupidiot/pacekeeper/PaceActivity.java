@@ -100,7 +100,7 @@ public class PaceActivity extends AppCompatActivity implements LocationListener 
     public void onLocationChanged(Location location) {
         if(location != null) {
             float speed = location.getSpeed();
-            paceTxt.setText("Speed "+location.getSpeed());
+            paceTxt.setText("Speed "+location.getSpeed()*2.23);
             if (speed >= minPace && speed <= maxPace) {
                 if(flag) {
                     beepSongPlayer.pause();
@@ -113,9 +113,9 @@ public class PaceActivity extends AppCompatActivity implements LocationListener 
                 }
             }
         }else{
-            minPaceTxt.setText("Minpace "+minPace);
-            maxPaceTxt.setText("Maxpace "+maxPace);
-            paceTxt.setText("Speed -.-");
+            minPaceTxt.setText("Minimum Pace "+minPace);
+            maxPaceTxt.setText("Maximum Pace "+maxPace);
+            paceTxt.setText("Your Pace -.-");
         }
     }
 
