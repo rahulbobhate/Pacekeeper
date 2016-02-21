@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".CalculateSpeedActivity">
+    <item android:id="@+id/appDemo"
+        android:title="App Demo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orderInCategory="100"
+        android:showAsAction="always" />
+</menu>
